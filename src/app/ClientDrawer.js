@@ -16,10 +16,10 @@ const fnt = Inconsolata({ subsets: ['latin'] })
 
 // 表示用のメニューを準備
 const menu = [
-    {title: 'タイマーアプリ', href: '', icon: AccessAlarmRoundedIcon},
-    {title: 'ユーザ登録', href: '', icon: AccountBoxRoundedIcon},
-    {title: 'TODOアプリ', href: '', icon: AssignmentTurnedInRoundedIcon},
-    {title: '書籍検索', href:'', icon: BookRoundedIcon}
+    {title: 'タイマーアプリ', href: '/timer', icon: AccessAlarmRoundedIcon},
+    {title: 'ユーザ登録', href: '/register', icon: AccountBoxRoundedIcon},
+    {title: 'TODOアプリ', href: '/todo', icon: AssignmentTurnedInRoundedIcon},
+    {title: '書籍検索', href:'/search', icon: BookRoundedIcon}
   
   ]
 
