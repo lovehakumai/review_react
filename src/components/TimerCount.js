@@ -5,13 +5,11 @@ import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded';
 import {Button, Drawer, List, ListItem, ListItemButton, ListItemText, ListItemIcon, IconButton} from '@mui/material';
 
 import { useState, useRef } from "react"
-import { Play } from 'next/font/google';
 
 export default function TimerCount(){
     const id = useRef(null);
     const [count, setCount] = useState(10);
-    const [isCongrats, setIsCongrats] = useState(false);
-    const [isWrong, setIsWrong] = useState(false);
+    const [gameResult, setGameResult] = useState(0);
 
     const handleStart=()=>{
         if(id.current === null){
@@ -23,9 +21,11 @@ export default function TimerCount(){
         clearInterval(id.current);
         id.current = null;
         if(count === 0){
-            setIsCongrats(true);
+            setGameResult(1);
+        }else if(count !== 0){
+            setGameResult(-1);
         }else{
-            setIsWrong(true);
+            setGameResult(0);
         }
     };
 
@@ -33,15 +33,23 @@ export default function TimerCount(){
         clearInterval(id.current);
         id.current = null;
         setCount(10)
-        setIsCongrats(false);
-        setIsWrong(false);
+        setGameResult(0);
     }
+
+    const containerClass = gameResult === 1
+        ? "bg-green-200"
+        : gameResult === -1
+        ? "bg-red-200"
+        : "bg-white-200"
 
     return(
         <>
-            <div className={`flex flex-col justify-center items-center h-screen space-y-6 ${isCongrats ? "bg-blue-200":"bg-white"} ${isWrong?"bg-red-200":"bg-white"}`}>
-                {isCongrats && <p className="text-4xl font-bold text-blue-600 mb-4">Congratulation</p>}
-                {isWrong && <p className="text-4xl font-bold text-red-600 mb-4">Failed...Let's try again!</p>}
+            <div className={`flex flex-col justify-center items-center h-screen space-y-6 ${ containerClass }`}>
+                <p>
+                    {gameResult===0 && <p className='text-4xl mb-4'><br /></p>}
+                    {gameResult===1 && <p className="text-4xl font-bold text-blue-600 mb-4">Congratulation</p>}
+                    {gameResult===-1  && <p className="text-4xl font-bold text-red-600 mb-4">Failed...Let's try again!</p>}
+                </p>
                 <div>
                     <p className='text-6xl font-bold mb-2'>{count}</p>
                 </div>
