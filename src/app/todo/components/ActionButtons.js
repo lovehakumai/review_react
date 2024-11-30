@@ -14,17 +14,21 @@ const editRecord =()=>console.log("dev");
 const checkTodo =()=>console.log("dev");
 const removeRecord =()=>console.log("dev");
 
-export function SaveButton({className, color}){
+export function SaveButton({className, color, onSave}){
     return(
         <>
-            <IconButton><SaveIcon className={...className} color={color} /></IconButton>
+            <IconButton onClick={onSave}>
+                <SaveIcon className={...className} color={color} />
+            </IconButton>
         </>
     )
 }
-export function CancelButton({className, color}){
+export function CancelButton({className, color, onCancel}){
     return(
         <>
-            <IconButton><CancelIcon className={...className} color={color}/></IconButton>
+            <IconButton onClick={onCancel}>
+                <CancelIcon className={...className} color={color}/>
+            </IconButton>
         </>
     )
 }

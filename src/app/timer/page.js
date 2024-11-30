@@ -1,4 +1,4 @@
-import TimerCount from "@/components/TimerCount";
+import TimerCount from "@/app/timer/components/TimerCount";
 
 export default function TimerPage(){
     return(

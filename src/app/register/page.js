@@ -1,4 +1,4 @@
-import FormYup from "@/components/FormYup";
+import FormYup from "@/app/register/components/FormYup";
 
 export default function RegisterPage(){
     return(

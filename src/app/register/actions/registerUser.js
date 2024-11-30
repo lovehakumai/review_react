@@ -3,9 +3,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-
-
-
 export async function registerUser(formData){
     const name = formData.get("name");
     const email = formData.get("email");

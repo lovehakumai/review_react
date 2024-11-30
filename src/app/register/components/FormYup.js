@@ -2,7 +2,7 @@
 import {useForm,useState} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { registerUser } from "./registerUser";
+import { registerUser } from "../actions/registerUser";
 import { useRouter } from "next/navigation";
 
 const schema = yup.object({
