@@ -1,7 +1,9 @@
 "use client";
-import {useForm} from "react-hook-form";
+import {useForm,useState} from "react-hook-form";
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { registerUser } from "./registerUser";
+import { useRouter } from "next/navigation";
 
 const schema = yup.object({
     name: yup
@@ -10,7 +12,8 @@ const schema = yup.object({
             .max(20, 'Name should be at most 20 letters'),
     gender: yup
             .string()
-            .required('Gender is Mandatory'),
+            .required('Gender is Mandatory')
+            .oneOf(["male", "femail"],"Please select male or female"),
     email: yup
             .string()
             .required('Email is Mandatory')
@@ -26,12 +29,13 @@ const schema = yup.object({
         });
 
 export default function FormYup(){
-
+    // useRouterフックの利用
+    const router = useRouter();
     // フォームの初期化
     const {register, handleSubmit, formState: {errors}, watch} = useForm({
         defaultValues : {
-            name : "",
-            email : "",
+            name : "Name must be at most 20 characters",
+            email : "sample@abc.com",
             gender : "",
             address: "",
             password:""
@@ -39,8 +43,29 @@ export default function FormYup(){
         resolver: yupResolver(schema),
     });
 
+
     // サブミット時の処理
-    const onsubmit = data => console.log(data);
+    const onsubmit = async (data) =>{
+        // FormDataオブジェクトを生成
+        const formData = new FormData();
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("gender", data.gender);
+        formData.append("address", data.address);
+        formData.append("password", data.password);
+        router.push("/");
+        try{
+            const result = await registerUser(formData);
+            if(result.success){
+                alert("User Registered Successfully");
+                
+            }else{
+                alert(`Error : ${result.error.message}`);
+            }
+        }catch{
+            console.log("Failed to register user : ", err);
+        }
+    }
     const onerror = err => console.log(err);
 
     // 値の確認はwatch関数を使う
@@ -58,13 +83,13 @@ export default function FormYup(){
                     <label 
                         htmlFor="name"
                         className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                        1-What is your name?
+                        Name
                     </label><br/>
                     <input 
                         type="text" 
                         id="name" 
                         {...register('name')}
-                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 
+                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4
                                     ${errors.name ? "border-red-500" : "border-gray-300"}`} />
                         {errors.name && (
                             <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
@@ -74,13 +99,14 @@ export default function FormYup(){
                     <label 
                         htmlFor="email"
                         className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                        2-Email
+                        Email
                     </label>
                     <input 
                         type="email" 
                         id="email"
-                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 
-                            ${errors.name ? "border-red-500" : "border-gray-300"}`}
+                        {...register("email")}
+                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4
+                            ${errors.email ? "border-red-500" : "border-gray-300"}`}
                         />
                     {errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email.message}</p>)}
 
@@ -88,12 +114,12 @@ export default function FormYup(){
                     <label 
                         htmlFor="gender"
                         className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                            3-Gender
+                            Gender
                         </label><br />
                     <select
                         id="gender"
                         {...register("gender")}
-                        className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 
+                        className={`w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4
                             ${errors.gender ? "border-red-500" : "border-gray-300"}`}>
                         <option value="" disabled>Select Gender</option>
                         <option value="male">Male</option>
@@ -105,14 +131,14 @@ export default function FormYup(){
                     <label 
                         htmlFor="address"
                         className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                        4-Address
+                        Address
                     </label>
                     <input 
                         type="text" 
                         id="address"
                         {...register("address")}
-                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 
-                            ${errors.name ? "border-red-500" : "border-gray-300"}`}
+                        className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4
+                            ${errors.address ? "border-red-500" : "border-gray-300"}`}
                         />
                     {errors.address && (<p className="text-red-500 text-sm mt-1">{errors.address.message}</p>)}
 
@@ -120,22 +146,22 @@ export default function FormYup(){
                     <label 
                         htmlFor="password"
                         className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                        5-Password
+                        Password
                     </label>
                     <input 
                         type="text" 
                         id="password"
                         {...register("password")}
                         className={`w-full px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500 
-                           ${errors.name ? "border-red-500" : "border-gray-300"}`}
+                           ${errors.password ? "border-red-500" : "border-gray-300"}`}
                         />
                     {errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password.message}</p>)}
 
                     {/* Submit Button */}
                     <div className="flex items-center justify-center">
-                        <buttton type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-4 cursor-pointer active:bg-blue-800 select-none">
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 mt-4 cursor-pointer active:bg-blue-800 select-none">
                             Submit
-                        </buttton>
+                        </button>
                     </div>
                 </form>
             </div>

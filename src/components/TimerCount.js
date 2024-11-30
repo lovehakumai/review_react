@@ -40,7 +40,7 @@ export default function TimerCount(){
         ? "bg-green-200"
         : gameResult === -1
         ? "bg-red-200"
-        : "bg-white-200"
+        : "bg-gray-100"
 
     return(
         <>
