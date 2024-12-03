@@ -22,15 +22,37 @@ export async function saveTodo(data){
 }
 
 export async function AllTodoLists(){
+
     try{
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const todoList = await prisma.todo.findMany({
             orderBy: {
                 id: "desc"
-            }
+            },
         });
         return todoList;
     }catch(error){
         console.log(`Error : ${error}`);
         throw new Error("Error in All TodoLists");
+    }
+}
+
+export async function handleCheckTodo(formData) {
+    const key = formData.get('key');
+    const status = formData.get('status')==='true';
+
+    const newStatus = !status;
+    try {
+        await prisma.todo.update({
+            where: {
+                id: key
+            },
+            data: {
+                status: newStatus
+            },
+        });
+    } catch (error) {
+        console.log(`Error:  ${error}`);
+        throw new Error("Error in handleCheckTodo");
     }
 }
