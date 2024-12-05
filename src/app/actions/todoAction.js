@@ -37,11 +37,11 @@ export async function AllTodoLists(){
     }
 }
 
-export async function handleCheckTodo(formData) {
-    const key = formData.get('key');
-    const status = formData.get('status')==='true';
+export async function handleCheckTodo(key, status) {
+    const newStatus = status===true?"false":"true";
+    console.log("new status: ", newStatus, "typeof : ", typeof newStatus);
+    console.log("status: ", status, "typeof : ", typeof status);
 
-    const newStatus = !status;
     try {
         await prisma.todo.update({
             where: {
