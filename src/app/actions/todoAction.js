@@ -2,6 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+
 export async function saveTodo(data){
     try{
         console.log("saveTodo data: ", data);
@@ -19,12 +20,44 @@ export async function saveTodo(data){
         console.error("Error saving todo:", error);
         throw new Error("Failed to save todo");
     }
+};
+
+export async function updateTodo(data){
+    try{
+        const result = await prisma.todo.update({
+            where: {
+                id: data.id,
+            },
+            data: {
+                memo: data.memo,
+                lastModified: data.lastModified
+            }
+        })
+        return result;
+    }catch(error){
+        console.error("Error updating todo:", error);
+        throw new Error("Failed to update todo");
+    }
+};
+
+export async function deleteTodo(data){
+    try{
+        const result = await prisma.todo.delete({
+            where: {
+                id: data.id,
+            }
+        })
+        return result;
+    }catch(error){
+        console.log("Error deleting todo: ", error)
+        throw new Error("Failed to delete todo");
+    }
 }
 
 export async function AllTodoLists(){
 
     try{
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        // await new Promise((resolve) => setTimeout(resolve, 2000));
         const todoList = await prisma.todo.findMany({
             orderBy: {
                 id: "desc"

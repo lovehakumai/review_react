@@ -4,9 +4,11 @@ import { SaveButton } from "./ActionButtons";
 import { CancelButton } from "./ActionButtons";
 import { useState } from "react";
 import { saveTodo } from "@/app/actions/todoAction";
+import { useEdit } from "../context/TodoContext";
 
 export function NewTodo(){
-    
+    const { latestAllTodo }  = useEdit();
+
     // 初期値設定
     const [inputValue, setInputValue] = useState("");
     const [buttonStyle, setButtonStyle] = useState("SHOW_DISABLED");
@@ -14,10 +16,8 @@ export function NewTodo(){
     // ハンドラー関数
     const handleChange = (e) =>{
         const value = e.target.value;
-        if(value !== ""){
-            setInputValue(value);
-            setButtonStyle("SHOW");
-        }
+        setInputValue(value);
+        setButtonStyle("SHOW");
     }
     const handleFocus = () =>{
         setButtonStyle("SHOW_DISABLED");
@@ -41,10 +41,9 @@ export function NewTodo(){
                 createDate : new Date(),
                 lastModified : new Date()
             }
-            console.log("todoData: ", todoData);
             await saveTodo(todoData);
-            alert("Todo saved successfully")
             setInputValue("") // 値のリセット
+            latestAllTodo(); // コンテキスト内のuseStateを変更し再レンダリングさせる
         }catch(error){
             console.error("Error in saving todo: ", error);
         }finally{

@@ -1,4 +1,4 @@
-import { InputButtons, NewTodo } from "./InputComponents";
+import { NewTodo } from "./InputComponents";
 
 export default function InputSection(){
     return(

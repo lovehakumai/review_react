@@ -1,25 +1,29 @@
 "use client";
-import { IconButton, Checkbox } from "@mui/material"; // Material-UIのコンポーネント
-import { CheckBoxOutlineBlank } from "@mui/icons-material"; // Material-UIのアイコン
-import { handleCheckTodo } from "@/app/actions/todoAction";
+import { CheckButton, EditButton, DeleteButton } from "./ListItemButtons";
+import ListItemMemo from "./ListItemMemo";
 
+export default function ListItem({todoList}){
 
-export default function ListItem({todo}){
-    const handleClick=()=>{
-        handleCheckTodo(todo.id, todo.status);
-    }
     return(
-        <>
-            <IconButton 
-                aria-label={todo.status===true ? "check-on":"check-off"} 
-                size="small" 
-                color="disabled" 
-                type="submit"
-                onClick={handleClick}
-            >
-                {todo.status==="true"?<Checkbox />:<CheckBoxOutlineBlank />}
-            </IconButton>
-            
-        </>
+           <>
+            {todoList.map((todo)=>
+                    <div className="border-2 mb-10" key={todo.id}>
+                        <div className="flex flex-row justify-between mb-2 mt-5">
+                            <div className="flex flex-row items-center space-x-2 ">
+                                <CheckButton todo={todo}/>
+                                <ListItemMemo todo={todo} />
+                            </div>
+                            <div className="flex flex-row space-x-2 > * mr-5 font-bold">
+                                <EditButton todo={todo}/>
+                                <DeleteButton todo={todo} />
+                            </div>
+                        </div>
+                        <ul className="text-xs text-right">
+                            <li>create: {todo.createDate.toLocaleDateString()} - {todo.createDate.toLocaleTimeString()}</li>
+                            <li>lastmodified: {todo.lastModified.toLocaleDateString()} - {todo.lastModified.toLocaleTimeString()}</li>
+                        </ul>
+                    </div>
+            )}
+            </>
     );
 }
