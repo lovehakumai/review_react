@@ -14,11 +14,12 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  console.log("[DEBUG]CHILDREN IN LAYOUT.JS : ", children);
+
   return (
     <html lang="ja">
       <body className={fnt.className}>
-        <ClientDrawer />
-        <div className="ml-2">{children}</div>
+        <ClientDrawer>{children}</ClientDrawer>
       </body>
     </html>
   );
