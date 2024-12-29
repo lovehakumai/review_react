@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { IconButton, Checkbox } from "@mui/material"; // Material-UIのコンポーネント
 import { CheckBoxOutlineBlank } from "@mui/icons-material"; // Material-UIのアイコン
 import { deleteTodo, handleCheckTodo } from "@/app/actions/todoAction";
@@ -13,10 +13,12 @@ export function CheckButton({todo}){
         handleCheckTodo(todo.id, todo.status);
         latestAllTodo();
     }
+    console.log("[DEBUG]1-2 todo : ", todo);
+    console.log("[DEBUG]1-2 todo type : ", typeof(todo.status));
     return(
         <>
             <IconButton 
-                aria-label={todo.status===true ? "check-on":"check-off"} 
+                aria-label={todo.status==="true" ? "check-on":"check-off"}
                 size="small" 
                 color="disabled" 
                 type="submit"

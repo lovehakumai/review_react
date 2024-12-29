@@ -1,5 +1,7 @@
 "use server";
 import { PrismaClient } from "@prisma/client";
+import React from "react";
+
 const prisma = new PrismaClient();
 
 
@@ -55,14 +57,15 @@ export async function deleteTodo(data){
 }
 
 export async function AllTodoLists(){
-
     try{
-        // await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log("[DEBUG] latestAllTodo started...");
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const todoList = await prisma.todo.findMany({
             orderBy: {
                 id: "desc"
             },
         });
+        console.log("[DEBUG] latestAllTodo finished with todos:", todoList);
         return todoList;
     }catch(error){
         console.log(`Error : ${error}`);
@@ -71,7 +74,7 @@ export async function AllTodoLists(){
 }
 
 export async function handleCheckTodo(key, status) {
-    const newStatus = status===true?"false":"true";
+    const newStatus = status==="true"?"false":"true";
     console.log("new status: ", newStatus, "typeof : ", typeof newStatus);
     console.log("status: ", status, "typeof : ", typeof status);
 

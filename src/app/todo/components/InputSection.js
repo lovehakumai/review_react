@@ -1,5 +1,5 @@
 import { NewTodo } from "./InputComponents";
-
+import React from "react";
 export default function InputSection(){
     return(
         <section id="input" className="py-10 mt-10 ">

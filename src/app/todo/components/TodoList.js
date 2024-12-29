@@ -1,7 +1,8 @@
-import { EditProvider } from "../context/TodoContext"
+import { EditProvider,useEdit } from "../context/TodoContext"
 import InputSection from "./InputSection"
 import AddSection from "./InputSection"
 import ListSection from "./ListSection"
+import React from "react";
 
 
 export default function TodoList(){

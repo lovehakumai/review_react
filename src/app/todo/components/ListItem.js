@@ -1,9 +1,9 @@
 "use client";
 import { CheckButton, EditButton, DeleteButton } from "./ListItemButtons";
 import ListItemMemo from "./ListItemMemo";
-
+import React from "react";
 export default function ListItem({todoList}){
-
+    console.log("[DEBUG]1-2 todoList in ListItem : ", todoList);
     return(
            <>
             {todoList.map((todo)=>

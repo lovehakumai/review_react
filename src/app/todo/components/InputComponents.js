@@ -5,10 +5,11 @@ import { CancelButton } from "./ActionButtons";
 import { useState } from "react";
 import { saveTodo } from "@/app/actions/todoAction";
 import { useEdit } from "../context/TodoContext";
+import React from "react";
 
 export function NewTodo(){
     const { latestAllTodo }  = useEdit();
-
+    
     // 初期値設定
     const [inputValue, setInputValue] = useState("");
     const [buttonStyle, setButtonStyle] = useState("SHOW_DISABLED");
@@ -58,7 +59,7 @@ export function NewTodo(){
     return(
         <>
             <TextField 
-                id="standard-basic" 
+                id="standard-basic_input"
                 label="Your New Todo" 
                 variant="standard" 
                 className="w-3/4" 
@@ -89,8 +90,8 @@ function InputButtons({ buttonStyle, onSave, onCancel }){
 
     return(
         <div>
-            <SaveButton {...SaveButtonProps}/>
-            <CancelButton {...CancelButtonProps}/>
+            <SaveButton aria-label="save" {...SaveButtonProps}/>
+            <CancelButton aria-label="cancel" {...CancelButtonProps}/>
         </div>
     );
 }
